@@ -1,0 +1,17 @@
+# 1. Initialize the project
+npm init -y
+
+# 2. Install core dependencies
+npm install express dotenv
+
+# 3. Install development dependencies
+npm install --save-dev @types/node @types/express
+
+# 4. Install TypeScript and related tools
+npm install --save-dev typescript ts-node
+
+# 5. Initialize TypeScript config file
+npx tsc --init
+
+# 6. Install nodemon for development
+npm install --save-dev nodemon

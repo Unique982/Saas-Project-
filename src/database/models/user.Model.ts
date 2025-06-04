@@ -22,10 +22,12 @@ class User extends Model {
   declare email: string;
   @Column({
     type: DataType.STRING,
+    unique: true,
   })
   declare password: string;
   @Column({
     type: DataType.ENUM("teacher", "institute", "super-admin", "student"),
+    defaultValue: "student",
   })
   declare role: string;
 }

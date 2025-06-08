@@ -8,6 +8,7 @@
 import { Request, Response } from "express";
 import User from "../../../database/models/user.Model";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 // const registerUser = async (req: Request, res: Response) => {
 //   const { username, email, password } = req.body;
@@ -44,6 +45,12 @@ class AuthController {
       res.json({ message: "somthing wrong" });
     }
   }
+  // login flow
+  // email/username, password (basic )
+  // email, password -- data accept -- validation
+  // first check email or not (verify)-- yes-- check password now -- milo--
+  // toekn generation (jsonwebtoken)
+  // now -- not re4gister
   static async loginUser(req: Request, res: Response) {
     try {
       if (req.body == undefined) {
@@ -54,15 +61,14 @@ class AuthController {
         return;
       }
       const { email, role, password } = req.body;
-      if (!email || !role || !password) {
-        res.json({ message: "All filed require" });
+      if (!email || !password) {
+        res.status(400).json({ message: "All filed require" });
         return;
       }
       // check user exits or not
       const existUser = await User.findOne({
         where: {
           email,
-          role,
         },
       });
       if (!existUser) {
@@ -75,7 +81,10 @@ class AuthController {
         res.json({ message: "Invalid credentials" });
         return;
       }
-      res.json({ message: "Login successfully!" });
+      const token = jwt.sign({ id: existUser.id }, "token", {
+        expiresIn: "2m",
+      });
+      res.json({ message: "Login successfully!", token });
     } catch (err) {
       res.status(400).json({ message: "Something wrong" });
     }

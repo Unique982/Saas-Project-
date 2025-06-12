@@ -84,7 +84,7 @@ class AuthController {
       const token = jwt.sign({ id: existUser.id }, "token", {
         expiresIn: "2m",
       });
-      res.json({ message: "Login successfully!", token });
+      res.status(200).json({ message: "Login successfully!", token });
     } catch (err) {
       res.status(400).json({ message: "Something wrong" });
     }

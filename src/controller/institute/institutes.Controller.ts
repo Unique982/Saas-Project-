@@ -1,8 +1,18 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import sequelize from "../../database/connection";
 import generateRandomNumber from "../../services/generateRandomNumber";
+interface IExtendedRequest extends Request {
+  user?: {
+    name: string;
+    age: number;
+  };
+}
 class InstituteController {
-  static async craeteInstitute(req: Request, res: Response) {
+  static async craeteInstitute(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
     const {
       instituteName,
       instituteEmail,

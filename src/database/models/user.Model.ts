@@ -24,6 +24,12 @@ class User extends Model {
     type: DataType.STRING,
     unique: true,
   })
+  declare currentInstituteNumber: string
+  @Column({
+    type:DataType.STRING,
+    unique:true,
+  })
+
   declare password: string;
   @Column({
     type: DataType.ENUM("teacher", "institute", "super-admin", "student"),

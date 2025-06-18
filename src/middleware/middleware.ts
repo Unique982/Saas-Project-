@@ -1,10 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import User from "../database/models/user.Model";
-
-interface IExtendedRequest extends Request {
-  user?: any;
-}
+import { IExtendedRequest } from "./type";
 
 class Middleware {
   static async isLoggedIn(
@@ -15,8 +12,10 @@ class Middleware {
     // check if login or not
     // token accept
     // verify garne
+    try{
 
     const token = req.headers.authorization;
+
     if (!token) {
       res.status(401).json({
         message: "Please provide token",
@@ -24,11 +23,11 @@ class Middleware {
       return;
     }
     //verfiy token
-    jwt.verify(token, "thissecretkey", async (error, result: any) => {
-      if (error) {
-        res.status(403).json({ message: "Token invalid" });
+    jwt.verify(token, "token", async (erroraayo, resultaayo: any) => {
+      if (erroraayo) {
+        res.status(403).json({ message: "Token invalid vayo" });
       } else {
-        const userData = await User.findByPk(result.id);
+        const userData = await User.findByPk(resultaayo.id);
         if (!userData) {
           res
             .status(403)
@@ -37,8 +36,12 @@ class Middleware {
           req.user = userData;
           next();
         }
+        
       }
     });
+  }catch(err){
+    console.log(err)
+  }
   }
 }
 export default Middleware;

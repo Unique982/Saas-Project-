@@ -82,7 +82,7 @@ class AuthController {
         return;
       }
       const token = jwt.sign({ id: existUser.id }, "token", {
-        expiresIn: "2m",
+        expiresIn: "2d",
       });
       res.status(200).json({ message: "Login successfully!", token });
     } catch (err) {

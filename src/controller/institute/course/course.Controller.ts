@@ -25,6 +25,7 @@ class CourseController {
     }
     // const courseThumbnail = null;
     const courseThumbnail = req.file ? req.file.path : null;
+
     const returnedData = await sequelize.query(
       `INSERT INTO course_${instituteNumber}(courseName,coursePrice,courseDescription, courseDuration, courseLevel,courseThumbnail) VALUES(?,?,?,?,?,?)`,
       {
@@ -34,19 +35,16 @@ class CourseController {
           courseDescription,
           courseDuration,
           courseLevel,
-          courseThumbnail,
-          // coursePhoto || "https://uniqueneupane.com/image/hello.png",
+          courseThumbnail || "https://uniqueneupane.com/image/hello.png",
         ],
       }
     );
-    console.log(returnedData);
     res.status(200).json({ message: "create course successfully" });
   }
 
   /// get all courses
   static async getAllCourse(req: IExtendedRequest, res: Response) {
     const instituteNumber = req.user?.currentInstituteNumber;
-    console.log(instituteNumber, "k xa ala ko current");
     const [courses] = await sequelize.query(
       `SELECT * FROM course_${instituteNumber}`
     );
@@ -61,11 +59,11 @@ class CourseController {
     const courseId = req.params.id;
 
     // fisrt chech if course exits or not if exists and
-    const [ccoursData] = await sequelize.query(
+    const [coursData] = await sequelize.query(
       `SELECT * FROM course_${instituteNumber} WHERE id = ?`,
       { replacements: [courseId] }
     );
-    if (ccoursData.length == 0) {
+    if (coursData.length == 0) {
       return res.status(404).json({ message: "no course with that id" });
     }
     await sequelize.query(`DELETE FROM course_${instituteNumber} WHERE id= ?`, {

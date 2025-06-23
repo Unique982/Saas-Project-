@@ -7,7 +7,7 @@ class Studentcontroller {
     const instituteNumber = req.user?.currentInstituteNumber;
 
     const students = await sequelize.query(
-      `SELECT * FROM students_${instituteNumber}`
+      `SELECT * FROM student_${instituteNumber}`
     );
     res
       .status(200)
@@ -31,12 +31,13 @@ class Studentcontroller {
       !studentEmail ||
       !studentPhoneNumber ||
       !studentAddress ||
-      enrolledDate
+      !enrolledDate
     ) {
       res.status(400).json({ message: "All feild  are require " });
     }
+
     await sequelize.query(
-      `INSERT INTO student${instituteNumber}(studentName,studentEmail,studentPhoneNumber,studentAddress,enrolledData,studentImage)VALUES(?,?,?,?,?.?)`,
+      `INSERT INTO student_${instituteNumber}(studentName,studentEmail,studentPhoneNumber,studentAddress,enrolledDate,studentImage)VALUES(?,?,?,?,?,?)`,
       {
         replacements: [
           studentName,
@@ -44,11 +45,14 @@ class Studentcontroller {
           studentPhoneNumber,
           studentAddress,
           enrolledDate,
-          studentImage,
+          studentImage || "image.png",
         ],
       }
     );
     res.status(200).json({ message: "student add successfully!" });
   };
+
+  // delete student
+  static deleteStudent = async (req: IExtendedRequest, res: Response) => {};
 }
 export default Studentcontroller;

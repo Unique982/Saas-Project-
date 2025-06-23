@@ -102,7 +102,7 @@ class InstituteController {
     await sequelize.query(`CREATE TABLE IF NOT EXISTS teacher_${instituteNumber}(
    id VARCHAR(36) PRIMARY KEY DEFAULT (UUID()),
   teacherName VARCHAR(255) NOT NULL,
-  teacherPhoneNumber VARCHAR (255), teacherEmail VARCHAR(255) UNIQUE, teacherExperties VARCHAR(255), joinedDate DATE, salary VARCHAR(255),createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  teacherPhoneNumber VARCHAR (255), teacherEmail VARCHAR(255) UNIQUE, teacherExperties VARCHAR(255), joinedDate DATE, salary VARCHAR(255),teacherPhoto VARCHAR(255),teacherPassword VARCHAR(255),courseId VARCHAR(36) REFERENCES course_${instituteNumber}(id),createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP)`);
     next();
   }
@@ -129,7 +129,7 @@ class InstituteController {
     const institueNumber = req.user?.currentInstituteNumber;
     await sequelize.query(
       `CREATE TABLE IF NOT EXISTS course_${institueNumber}( id VARCHAR(36) PRIMARY KEY DEFAULT (UUID()),courseName VARCHAR(255) NOT NULL, coursePrice VARCHAR(255) NOT NULL,
-      courseDescription TEXT  ,courseDuration VARCHAR(255) NOT NULL, courseLevel ENUM('beginner','intermediate','advance')NOT NULL, courseThumbnail VARCHAR(244), createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      courseDescription TEXT  ,courseDuration VARCHAR(255) NOT NULL, courseLevel ENUM('beginner','intermediate','advance')NOT NULL, courseThumbnail VARCHAR(244),teacherId VARCHAR(36) REFERENCES teacher_${institueNumber}(id),categoryId VARCHAR(36) NOT NULL REFERENCES category_${institueNumber}(id),createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP)`
     );
     res.status(200).json({

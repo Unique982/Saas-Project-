@@ -34,7 +34,7 @@ class TeacherController {
     // password generatad function
     const data = generatedRandomPassword(teacherName);
     await sequelize.query(
-      `INSERT INTO teacher_${institueNumber}(teacherName,teacherPhoneNumber,teacherEmail,teacherExperties,salary,joinedDate,teacherPhoto,teacherPassword) VALUES(?,?,?,?,?,?,?,?)`,
+      `INSERT INTO teacher_${institueNumber}(teacherName,teacherPhoneNumber,teacherEmail,teacherExperties,salary,joinedDate,teacherPhoto,teacherPassword,courseI) VALUES(?,?,?,?,?,?,?,?)`,
       {
         type: QueryTypes.INSERT,
         replacements: [

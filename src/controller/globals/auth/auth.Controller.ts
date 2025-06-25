@@ -9,6 +9,7 @@ import { Request, Response } from "express";
 import User from "../../../database/models/user.Model";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import generaterJWTTOken from "../../../services/generateJWTToken";
 
 // const registerUser = async (req: Request, res: Response) => {
 //   const { username, email, password } = req.body;
@@ -81,9 +82,10 @@ class AuthController {
         res.json({ message: "Invalid credentials" });
         return;
       }
-      const token = jwt.sign({ id: existUser.id }, "token", {
-        expiresIn: "7d",
-      });
+      // const token = jwt.sign({ id: existUser.id }, "token", {
+      //   expiresIn: "7d",
+      // });
+      const token = generaterJWTTOken({ id: existUser.id });
       res.status(200).json({ message: "Login successfully!", token });
     } catch (err) {
       res.status(400).json({ message: "Something wrong" });
